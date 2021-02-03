@@ -11,6 +11,7 @@ import qualified Data.Aeson
 import qualified Data.ByteString.Lazy
 import qualified Data.ByteString.Char8 as Char8ByteString
 import qualified Jsonifier
+import qualified Jsonifier.Class as Jsonifier
 import qualified Text.Builder as TextBuilder
 
 

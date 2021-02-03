@@ -1,11 +1,11 @@
-module Jsonifier.Poke
+module Jsonifier.Internal.Poke
 where
 
-import Jsonifier.Prelude
-import PtrPoker.Poke ( byteString, word8, Poke(Poke) )
+import Jsonifier.Internal.Prelude
+import PtrPoker.Poke
 import qualified Data.Text.Internal as Text
 import qualified Data.Text.Array as TextArray
-import qualified Jsonifier.Ffi as Ffi
+import qualified Jsonifier.Internal.Ffi as Ffi
 
 
 null :: Poke

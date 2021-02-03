@@ -2,6 +2,7 @@
 resolver: lts-16.18
 
 extra-deps:
-- {git: "https://github.com/nikita-volkov/ptr-poker", commit: "75176794a789883da559840e32ea85ee345035ec"}
 - numeric-limits-0.1.0.0
 - unordered-containers-0.2.13.0
+- jsonifier-0.1.0.6
+- ptr-poker-0.1.1.3

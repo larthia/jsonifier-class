@@ -1,5 +1,5 @@
-module Jsonifier.Prelude
-( 
+module Jsonifier.Internal.Prelude
+(
   module Exports,
   showAsText,
 )

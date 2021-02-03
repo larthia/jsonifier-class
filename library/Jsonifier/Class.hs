@@ -5,8 +5,8 @@ module Jsonifier.Class (
   , (&=?)
 )where
 
-import Jsonifier.Basic
-    (char8ByteString,  Json,
+import Jsonifier
+    ( Json,
       null,
       bool,
       intNumber,
@@ -17,8 +17,9 @@ import Jsonifier.Basic
       array,
       object )
 
+import Jsonifier.Internal.Prelude
+import Jsonifier.Internal.Missing ( char8ByteString )
 import Data.ByteString ( ByteString )
-import Jsonifier.Prelude hiding (null, bool)
 
 import Data.These ( These(..) )
 
@@ -166,7 +167,7 @@ instance ToJSON Int where
     {-# INLINE toJson #-}
 
 instance ToJSON Bool where
-    toJson = bool
+    toJson = Jsonifier.bool
     {-# INLINE toJson #-}
 
 instance ToJSON Word where
@@ -248,12 +249,12 @@ instance ToJSON LT.Text where
 
 instance {-# OVERLAPPING #-} (ToJSON a) => ToJSON (Maybe a) where
     toJson (Just a) = toJson a
-    toJson _        = null
+    toJson _        = Jsonifier.null
     {-# INLINE toJson #-}
 
 instance {-# OVERLAPPING #-} (ToJSON a) => ToJSON (Strict.Maybe a) where
     toJson (Strict.Just a) = toJson a
-    toJson _               = null
+    toJson _               = Jsonifier.null
     {-# INLINE toJson #-}
 
 instance (ToJSON a, ToJSON b) => ToJSON (Either a b) where

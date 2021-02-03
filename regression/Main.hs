@@ -5,6 +5,7 @@ module Main where
 import Prelude hiding (null, bool)
 import qualified Data.Aeson as A
 import qualified Jsonifier as J
+import qualified Jsonifier.Class as J
 import Test.Tasty ( TestTree, defaultMain, testGroup )
 import Test.Tasty.HUnit ( testCase, (@?=) )
 import Data.ByteString.Lazy as LB (toStrict)

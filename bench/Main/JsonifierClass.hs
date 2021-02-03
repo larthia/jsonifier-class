@@ -3,7 +3,7 @@ module Main.JsonifierClass where
 import Prelude hiding (null, bool)
 import Jsonifier
 import qualified Main.Model as A
-
+import Jsonifier.Class
 
 instance ToJSON A.Result where
   toJson A.Result{..} =
