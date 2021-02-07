@@ -48,13 +48,6 @@ instance ToJSON A.Geo where
       "coordinates" &= coordinates
       ]
 
--- instance ToJSON (Double, Double) where
---   toJson (x, y) =
---     array [
---       toJson x,
---       toJson y
---       ]
-
 
 instance ToJSON A.Metadata where
   toJson A.Metadata{..} =
