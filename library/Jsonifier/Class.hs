@@ -17,8 +17,8 @@ import Jsonifier
       array,
       object )
 
-import Jsonifier.Internal.Prelude
-import Jsonifier.Internal.Missing ( char8ByteString )
+import Prelude
+
 import Data.ByteString ( ByteString )
 
 import Data.These ( These(..) )
@@ -44,15 +44,26 @@ import Data.Strict.Tuple ( Pair(..) )
 import qualified Data.Strict.Maybe as Strict
 import qualified Data.Strict.Either as Strict
 
-import Data.Tagged
+import PtrPoker.Write ( byteString, word8)
 
-import Jsonifier.Time (timeOfDay, zonedTime, localTime, utcTime,  day )
+import Data.Tagged ( Tagged, untag )
+import Data.Int
+import Data.Word
+import Data.Scientific
+import Data.Version
+import qualified Data.List.NonEmpty as NonEmpty
+import Data.Void
+import Data.Ratio
+import Data.Fixed
 
-(&=) :: (ToJSON a) => Text -> a -> (Text, Json)
+import Jsonifier.Time (timeOfDay, zonedTime, localTime, utcTime,  day)
+import Jsonifier (writeJson)
+
+(&=) :: (ToJSON a) => T.Text -> a -> (T.Text, Json)
 name &= value = (name, toJson value)
 {-# INLINE (&=) #-}
 
-(&=?) :: (ToJSON a, Omittable a) => Text -> a -> [(Text, Json)]
+(&=?) :: (ToJSON a, Omittable a) => T.Text -> a -> [(T.Text, Json)]
 name &=? value = omittable name value
 {-# INLINE (&=?) #-}
 
@@ -102,7 +113,7 @@ instance ToJSONKey LT.Text where
 
 
 class (ToJSON a) => Omittable a where
-    omittable :: (ToJSON a) => Text -> a -> [(Text, Json)]
+    omittable :: (ToJSON a) => T.Text -> a -> [(T.Text, Json)]
     omittable name k = [(name, toJson k)]
     {-# INLINE omittable #-}
 
@@ -150,6 +161,12 @@ instance Omittable IntSet.IntSet where
     omittable key xs | IntSet.null xs = []
                      | otherwise      = [(key, toJson xs)]
     {-# INLINE omittable #-}
+
+{-| byteString JSON via PtrPoker.Write -}
+
+byteStringJSON :: ByteString -> Jsonifier.Json
+byteStringJSON bs = writeJson $ word8 34 <> byteString bs <> word8 34
+{-# INLINE byteStringJSON #-}
 
 {-|
 JSON Class for Haskell types compliant with Aeson encoding
@@ -224,9 +241,9 @@ instance ToJSON Scientific where
 
 instance ToJSON Ordering where
     toJson o = case o of
-                LT -> char8ByteString "LT"
-                EQ -> char8ByteString "EQ"
-                GT -> char8ByteString "GT"
+                LT -> byteStringJSON "LT"
+                EQ -> byteStringJSON "EQ"
+                GT -> byteStringJSON "GT"
 
     {-# INLINE toJson #-}
 
@@ -239,7 +256,7 @@ instance {-# OVERLAPPING #-} ToJSON String where
     toJson c = textString (T.pack c)
     {-# INLINE toJson #-}
 
-instance ToJSON Text where
+instance ToJSON T.Text where
     toJson = textString
     {-# INLINE toJson #-}
 
@@ -279,7 +296,7 @@ instance (ToJSON a) => ToJSON [a] where
     toJson xs = array $ fmap toJson xs
     {-# INLINE toJson #-}
 
-instance (ToJSON a) => ToJSON (NonEmpty a) where
+instance (ToJSON a) => ToJSON (NonEmpty.NonEmpty a) where
     toJson xs = array $ fmap toJson xs
     {-# INLINE toJson #-}
 
@@ -343,28 +360,28 @@ instance {-# OVERLAPPABLE #-} (Foldable f) => ToJSON (f Json) where
     toJson = array
     {-# INLINE toJson #-}
 
-instance {-# OVERLAPPABLE #-} (Foldable f) => ToJSON (f (Text, Json)) where
+instance {-# OVERLAPPABLE #-} (Foldable f) => ToJSON (f (T.Text, Json)) where
     toJson = object
     {-# INLINE toJson #-}
 
 instance ToJSON Day where
-    toJson = char8ByteString . LB.toStrict . B.toLazyByteString . day
+    toJson = byteStringJSON . LB.toStrict . B.toLazyByteString . day
     {-# INLINE toJson #-}
 
 instance ToJSON LocalTime where
-    toJson = char8ByteString . LB.toStrict . B.toLazyByteString . localTime
+    toJson = byteStringJSON . LB.toStrict . B.toLazyByteString . localTime
     {-# INLINE toJson #-}
 
 instance ToJSON ZonedTime where
-    toJson = char8ByteString . LB.toStrict . B.toLazyByteString . zonedTime
+    toJson = byteStringJSON . LB.toStrict . B.toLazyByteString . zonedTime
     {-# INLINE toJson #-}
 
 instance ToJSON UTCTime where
-    toJson = char8ByteString . LB.toStrict . B.toLazyByteString . utcTime
+    toJson = byteStringJSON . LB.toStrict . B.toLazyByteString . utcTime
     {-# INLINE toJson #-}
 
 instance ToJSON TimeOfDay where
-    toJson = char8ByteString . LB.toStrict . B.toLazyByteString . timeOfDay
+    toJson = byteStringJSON . LB.toStrict . B.toLazyByteString . timeOfDay
     {-# INLINE toJson #-}
 
 -- instance ToJSON SystemTime where

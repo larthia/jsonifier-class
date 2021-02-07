@@ -28,10 +28,6 @@ library
     Jsonifier.Class
   other-modules:
     Jsonifier.Time
-    Jsonifier.Internal.Poke
-    Jsonifier.Internal.Ffi
-    Jsonifier.Internal.Missing
-    Jsonifier.Internal.Prelude
 
   build-depends:
     base >=4.11 && <5,

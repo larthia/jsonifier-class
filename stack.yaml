@@ -4,5 +4,5 @@ resolver: lts-16.18
 extra-deps:
 - numeric-limits-0.1.0.0
 - unordered-containers-0.2.13.0
-- jsonifier-0.1.0.6
+- jsonifier-0.1.1
 - ptr-poker-0.1.1.3
