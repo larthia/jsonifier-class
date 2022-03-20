@@ -73,12 +73,12 @@ regression = testGroup "checkAsonCompliance" $
   checkAesonCompliance ("HelloWorld" :: T.Text)      <>
   checkAesonCompliance ("HelloWorld" :: LT.Text)     <>
 
-  checkAesonCompliance (Nothing @ Int)               <>
-  checkAesonCompliance (Just @ Int 1)                <>
+  checkAesonCompliance (Nothing @Int)        <>
+  checkAesonCompliance (Just @Int 1)                <>
 
   checkAesonCompliance ([] :: [Int])                 <>
   checkAesonCompliance ([1,2,3] :: [Int])            <>
-  checkAesonCompliance ( NE.fromList @ Int [1,2,3])  <>
+  checkAesonCompliance ( NE.fromList @Int [1,2,3])  <>
 
   checkAesonCompliance (Left 'c' :: Either Char Int) <>
   checkAesonCompliance (Right 1  :: Either Char Int) <>
@@ -91,9 +91,9 @@ regression = testGroup "checkAsonCompliance" $
 
   checkAesonCompliance (1 % 3 :: Ratio Int)                <>
 
-  checkAesonCompliance (Seq.fromList @ Int [1,2,3] )                          <>
-  checkAesonCompliance (Seq.fromList @ Int [1,2,3] )                          <>
-  checkAesonCompliance (HashSet.fromList @ Int [1,2,3] )                      <>
+  checkAesonCompliance (Seq.fromList @Int [1,2,3] )                          <>
+  checkAesonCompliance (Seq.fromList @Int [1,2,3] )                          <>
+  checkAesonCompliance (HashSet.fromList @Int [1,2,3] )                      <>
   checkAesonCompliance (M.fromList [("a", 1),("b", 2)] :: M.Map String Int)             <>
   checkAesonCompliance (M.fromList [('a', 1),('b', 2)] :: M.Map Char   Int)             <>
   checkAesonCompliance (M.fromList [(1, 'a'),(2, 'b')] :: M.Map Int Char)               <>
@@ -102,8 +102,8 @@ regression = testGroup "checkAsonCompliance" $
   checkAesonCompliance (HM.fromList [('a', 1),('b', 2)] :: HM.HashMap Char   Int)       <>
   checkAesonCompliance (HM.fromList [(1, 'a'),(2, 'b')] :: HM.HashMap Int Char)         <>
   checkAesonCompliance (HM.fromList [(1.2, "a"),(2.2, "b")] :: HM.HashMap Double Text)  <>
-  checkAesonCompliance (V.fromList @ Int [1,2,3] )                                      <>
-  checkAesonCompliance (U.fromList @ Int [1,2,3] )                                      <>
+  checkAesonCompliance (V.fromList @Int [1,2,3] )                                      <>
+  checkAesonCompliance (U.fromList @Int [1,2,3] )                                      <>
   checkAesonCompliance (1 :: Micro)                                                     <>
 
   checkAesonCompliance ()                                                      <>

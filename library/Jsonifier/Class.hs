@@ -15,7 +15,8 @@ import Jsonifier
       scientificNumber,
       textString,
       array,
-      object )
+      object,
+      fromWrite )
 
 import Prelude
 
@@ -47,17 +48,16 @@ import qualified Data.Strict.Either as Strict
 import PtrPoker.Write ( byteString, word8)
 
 import Data.Tagged ( Tagged, untag )
-import Data.Int
-import Data.Word
-import Data.Scientific
-import Data.Version
+import Data.Int ( Int8, Int16, Int32, Int64 )
+import Data.Word ( Word8, Word16, Word32, Word64 )
+import Data.Scientific ( Scientific )
+import Data.Version ( showVersion, Version )
 import qualified Data.List.NonEmpty as NonEmpty
-import Data.Void
-import Data.Ratio
-import Data.Fixed
+import Data.Void ( absurd, Void )
+import Data.Ratio ( Ratio, denominator, numerator )
+import Data.Fixed ( Fixed, HasResolution )
 
 import Jsonifier.Time (timeOfDay, zonedTime, localTime, utcTime,  day)
-import Jsonifier (writeJson)
 
 (&=) :: (ToJSON a) => T.Text -> a -> (T.Text, Json)
 name &= value = (name, toJson value)
@@ -165,7 +165,7 @@ instance Omittable IntSet.IntSet where
 {-| byteString JSON via PtrPoker.Write -}
 
 byteStringJSON :: ByteString -> Jsonifier.Json
-byteStringJSON bs = writeJson $ word8 34 <> byteString bs <> word8 34
+byteStringJSON bs = fromWrite $ word8 34 <> byteString bs <> word8 34
 {-# INLINE byteStringJSON #-}
 
 {-|
